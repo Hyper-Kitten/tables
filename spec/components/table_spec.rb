@@ -64,12 +64,11 @@ RSpec.describe HyperKittenTables::Components::Table do
 
     it "with sortable columns" do
       component = described_class.new(collection: []) do |table|
-        table.current_sort_params(sort_key: :name, order: :asc)
-        table.header_sort_url do |column, current_sort_key, current_direction|
-          link_direction = case [current_sort_key, current_direction]
-          when [column.sort_key, "asc"]
+        table.header_sort_url do |column, params|
+          link_direction = case params
+          when { column.sort_key => "asc" }
             "desc"
-          when [column.sort_key, ""]
+          when { column.sort_key => "" }
             "desc"
           else
             "asc"
@@ -80,7 +79,7 @@ RSpec.describe HyperKittenTables::Components::Table do
         table.column(:age, sortable: true)
       end
 
-      render component
+      render component, params: { "name" => "asc" }
 
       assert_select "table" do
         assert_select "thead" do
@@ -114,25 +113,28 @@ RSpec.describe HyperKittenTables::Components::Table do
       assert_select "div", text: "Footer"
     end
 
-  def render(component)
-    assigns = { secret: "in the sauce" }
+    def render(component, params: {})
+      assigns = { secret: "in the sauce" }
 
-    view = Class.new(ActionView::Base.with_empty_template_cache) do
-      def view_cache_dependencies; []; end
-      def params; {}; end
+      view = Class.new(ActionView::Base.with_empty_template_cache) do
+        attr_accessor :params
+        def view_cache_dependencies; []; end
+        # def params; parameters; end
 
-      def combined_fragment_cache_key(key)
-        [ :views, key ]
-      end
-    end.with_view_paths([], assigns)
+        def combined_fragment_cache_key(key)
+          [ :views, key ]
+        end
+      end.with_view_paths([], assigns)
 
-    html = view.render component
+      view.params =  params
 
-    @html_document = Nokogiri::HTML::Document.parse(html)
-  end
+      html = view.render component
 
-  def document_root_element
-    @html_document.root
-  end
+      @html_document = Nokogiri::HTML::Document.parse(html)
+    end
+
+    def document_root_element
+      @html_document.root
+    end
   end
 end

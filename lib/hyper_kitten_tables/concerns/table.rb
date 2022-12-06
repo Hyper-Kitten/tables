@@ -30,11 +30,6 @@ module HyperKittenTables
         @columns << Column.new(name, method_name, sort_key, block, sortable, options)
       end
 
-      def current_sort_params(sort_key:, order:)
-        @current_sort_key = sort_key.to_s
-        @current_order = order.to_s
-      end
-
       def header_sort_url(&block)
         @header_sort_url = block
       end
@@ -67,7 +62,7 @@ module HyperKittenTables
             visible_columns.map do |column|
               if column.sortable
                 content_tag(:th) do
-                  @header_sort_url.call(column, @current_sort_key, @current_order).html_safe
+                  @header_sort_url.call(column, @view_context.params).html_safe
                 end
               else
                 content_tag(:th, column.name)
