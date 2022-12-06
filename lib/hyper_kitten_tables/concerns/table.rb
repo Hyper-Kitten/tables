@@ -21,7 +21,7 @@ module HyperKittenTables
         yield self if block_given?
       end
 
-      def column(name, method_name: nil, sort_key: nil, sortable: true, **options, &block)
+      def td(name, method_name: nil, sort_key: nil, sortable: true, **options, &block)
         if method_name.nil?
           method_name = name.to_s.parameterize.underscore
           name = name.to_s.titleize unless block_given?
@@ -36,6 +36,26 @@ module HyperKittenTables
 
       def footer(&block)
         @footer = block
+      end
+
+      def table(**options)
+        @table_options = options
+      end
+
+      def tbody(**options)
+        @tbody_options = options
+      end
+
+      def thead(**options)
+        @thead_options = options
+      end
+
+      def tr(**options)
+        @tr_options = options
+      end
+
+      def th(**options)
+        @th_options = options
       end
 
       def render_in(view_context)
@@ -53,19 +73,19 @@ module HyperKittenTables
       end
 
       def render_table
-        content_tag(:table) { render_header + render_body } + render_footer
+        content_tag(:table, @table_options) { render_header + render_body } + render_footer
       end
 
       def render_header
-        content_tag(:thead) do
-          content_tag(:tr) do
+        content_tag(:thead, @thead_options) do
+          content_tag(:tr, @tr_options) do
             visible_columns.map do |column|
               if column.sortable
-                content_tag(:th) do
+                content_tag(:th, @th_options) do
                   @header_sort_url.call(column, @view_context.params).html_safe
                 end
               else
-                content_tag(:th, column.name)
+                content_tag(:th, column.name, @th_options)
               end
             end.join.html_safe
           end
@@ -73,9 +93,9 @@ module HyperKittenTables
       end
 
       def render_body
-        content_tag(:tbody) do
+        content_tag(:tbody, @tbody_options) do
           @collection.map do |record|
-            content_tag(:tr) do
+            content_tag(:tr, @tr_options) do
               visible_columns.map do |column|
                 column_content = if column.block
                   capture(record, &column.block)

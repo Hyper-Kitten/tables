@@ -7,7 +7,7 @@ RSpec.describe HyperKittenTables::Components::Table do
   describe "rendering a table" do
     it "with defaults" do
       component = described_class.new(collection: []) do |table|
-        table.column(:name, sortable: false)
+        table.td(:name, sortable: false)
       end
 
       render component
@@ -27,7 +27,7 @@ RSpec.describe HyperKittenTables::Components::Table do
     it "with custom column options" do
       user = User.new("Hyper Kitten")
       component = described_class.new(collection: [user]) do |table|
-        table.column(:name, sortable: false, class: "custom-class")
+        table.td(:name, sortable: false, class: "custom-class")
       end
 
       render component
@@ -41,10 +41,79 @@ RSpec.describe HyperKittenTables::Components::Table do
       end
     end
 
+    it "with custom table options" do
+      component = described_class.new(collection: []) do |table|
+        table.td(:name, sortable: false)
+        table.table(class: "custom-class")
+      end
+
+      render component
+
+      assert_select "table.custom-class"
+    end
+
+    it "with custom tbody options" do
+      component = described_class.new(collection: []) do |table|
+        table.tbody(class: "custom-class")
+        table.td(:name, sortable: false)
+      end
+
+      render component
+
+      assert_select "table" do
+        assert_select "tbody.custom-class"
+      end
+    end
+
+    it "with custom thead options" do
+      component = described_class.new(collection: []) do |table|
+        table.thead(class: "custom-class")
+        table.td(:name, sortable: false)
+      end
+
+      render component
+
+      assert_select "table" do
+        assert_select "thead.custom-class"
+      end
+    end
+
+    it "with custom tr options" do
+      component = described_class.new(collection: []) do |table|
+        table.tr(class: "custom-class")
+        table.td(:name, sortable: false)
+      end
+
+      html = render component
+
+      assert_select "table" do
+        assert_select "thead" do
+          assert_select "tr.custom-class"
+        end
+      end
+    end
+
+    it "with custom th options" do
+      component = described_class.new(collection: []) do |table|
+        table.th(class: "custom-class")
+        table.td(:name, sortable: false)
+      end
+
+      render component
+
+      assert_select "table" do
+        assert_select "thead" do
+          assert_select "tr" do
+            assert_select "th.custom-class"
+          end
+        end
+      end
+    end
+
     it "rendered only the specified columns when requested" do
       component = described_class.new(collection: [], requested_columns: ["Name"]) do |table|
-        table.column(:name, sortable: false)
-        table.column(:email, sortable: false)
+        table.td(:name, sortable: false)
+        table.td(:email, sortable: false)
       end
 
       html = render component
@@ -75,8 +144,8 @@ RSpec.describe HyperKittenTables::Components::Table do
           end
           "<a href='/?order[#{column.sort_key}]=#{link_direction}'>#{column.name}</a>"
         end
-        table.column(:name, sortable: true)
-        table.column(:age, sortable: true)
+        table.td(:name, sortable: true)
+        table.td(:age, sortable: true)
       end
 
       render component, params: { "name" => "asc" }
@@ -102,7 +171,7 @@ RSpec.describe HyperKittenTables::Components::Table do
 
     it "with a footer " do
       component = described_class.new(collection: []) do |table|
-        table.column(:name, sortable: false)
+        table.td(:name, sortable: false)
         table.footer do
           "Footer"
         end
