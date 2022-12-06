@@ -1,8 +1,9 @@
-require "hyper_kitten_tables/concerns/table"
-require 'hyper_kitten_tables/components/table'
+# require "hyper_kitten_tables/concerns/table"
+require 'hyper-kitten-tables'
 require 'rails_helper'
 
 RSpec.describe HyperKittenTables::Components::Table do
+  User = Struct.new(:name)
   describe "rendering a table" do
     it "with defaults" do
       component = described_class.new(collection: []) do |table|
@@ -19,6 +20,23 @@ RSpec.describe HyperKittenTables::Components::Table do
         end
         assert_select "tbody" do
           assert_select "tr", count: 0
+        end
+      end
+    end
+
+    it "with custom column options" do
+      user = User.new("Hyper Kitten")
+      component = described_class.new(collection: [user]) do |table|
+        table.column(:name, sortable: false, class: "custom-class")
+      end
+
+      render component
+
+      assert_select "table" do
+        assert_select "tbody" do
+          assert_select "tr" do
+            assert_select "td.custom-class", text: "Hyper Kitten"
+          end
         end
       end
     end
