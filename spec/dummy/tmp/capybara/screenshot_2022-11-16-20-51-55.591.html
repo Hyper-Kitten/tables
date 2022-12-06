@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html class='h-100'>
+<head>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<title>Your Title</title>
+<link rel="stylesheet" crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" />
+<script type="importmap" data-turbo-track="reload">{
+  "imports": {
+    "bootstrap": "https://ga.jspm.io/npm:bootstrap@5.2.2/dist/js/bootstrap.esm.js",
+    "@popperjs/core": "https://ga.jspm.io/npm:@popperjs/core@2.11.6/lib/index.js",
+    "@hotwired/stimulus": "/assets/stimulus.min-aab608fae21f2c1bac54028a5ea332762374c7d5.js",
+    "@hotwired/stimulus-loading": "/assets/stimulus-loading-e367296568a6df104dc84fcfe5d1aafae5076fc0.js",
+    "sortablejs": "https://ga.jspm.io/npm:sortablejs@1.15.0/modular/sortable.esm.js",
+    "trix": "https://ga.jspm.io/npm:trix@2.0.0-beta.0/dist/trix.js",
+    "hyper_kitten_meow/application": "/assets/hyper_kitten_meow/application-233450bbc5437a34f4fbb75045e1b0ae337c879e.js",
+    "@rails/activestorage": "https://ga.jspm.io/npm:@rails/activestorage@7.0.4/app/assets/javascripts/activestorage.esm.js",
+    "@rails/actiontext": "https://ga.jspm.io/npm:@rails/actiontext@7.0.4/app/assets/javascripts/actiontext.js",
+    "hyper_kitten_meow/controllers/application": "/assets/hyper_kitten_meow/controllers/application-a45fcffa4627508814a7727d04043357d1dcedbe.js",
+    "hyper_kitten_meow/controllers": "/assets/hyper_kitten_meow/controllers/index-75d6331f3e6ac38720595fca892d1179c84dd34e.js",
+    "hyper_kitten_meow/controllers/menu_items_form_controller": "/assets/hyper_kitten_meow/controllers/menu_items_form_controller-82ceff726898a80786aca24b9ae62b5862bd41b0.js"
+  }
+}</script>
+<link rel="modulepreload" href="/assets/stimulus.min-aab608fae21f2c1bac54028a5ea332762374c7d5.js">
+<link rel="modulepreload" href="/assets/stimulus-loading-e367296568a6df104dc84fcfe5d1aafae5076fc0.js">
+<script src="/assets/es-module-shims.min-f7a11f41d669b1f9ca6432c0ba58580ba2b4087a.js" async="async" data-turbo-track="reload"></script>
+<script type="module">import "application"</script>
+<script type="module">import "hyper_kitten_meow/application"</script>
+
+</head>
+<body class='h-100'>
+<div class='container-fluid h-100'>
+<div class='row h-100'>
+<nav class='col-md-3 col-lg-2 d-md-block sidebar bg-dark text-white d-flex flex-column'>
+<h3 class='mb-3 mt-3'>Your Title</h3>
+<hr>
+<ul class='nav nav-pills flex-column mb-auto'>
+<li class='nav-item'><a class="nav-link text-white" href="/hyper-kitten-meow/admin/posts">Posts</a></li>
+<li class='nav-item'><a class="nav-link text-white" href="/hyper-kitten-meow/admin/pages">Pages</a></li>
+<li class='nav-item'><a class="nav-link text-white" href="/hyper-kitten-meow/admin/menus">Menus</a></li>
+<li class='nav-item'><a class="nav-link text-white" href="/hyper-kitten-meow/admin/tags">Tags</a></li>
+<li class='nav-item'><a class="nav-link text-white" href="/hyper-kitten-meow/admin/users">Users</a></li>
+</ul>
+<hr>
+<a class="nav-link d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" href="#"><strong>Andrew</strong>
+</a><ul class='dropdown-menu dropdown-menu-dark text-small shadow'>
+<li><a class="dropdown-item" href="/hyper-kitten-meow/admin/logout">Log Out</a></li>
+</ul>
+</nav>
+<div class='col-md-9 col-lg-10 mt-3 px-4'>
+<section>
+<div class='d-flex justify-content-between'>
+<h2>New Post</h2>
+<div class='action'>
+<a class="btn btn-secondary" href="/hyper-kitten-meow/admin/posts">Back to Posts</a>
+</div>
+</div>
+<form class="simple_form new_post" id="new_post" novalidate="novalidate" action="/hyper-kitten-meow/admin/posts" accept-charset="UTF-8" method="post"><div class="mb-3 string required post_title"><label class="form-label string required" for="post_title">Title <abbr title="required">*</abbr></label><input class="form-control string required" type="text" name="post[title]" id="post_title" /></div>
+<div class="mb-3 text optional post_summary"><label class="form-label text optional" for="post_summary">Summary</label><textarea class="form-control text optional" name="post[summary]" id="post_summary">
+</textarea></div>
+<div class="mb-3 rich_text_area required post_body"><label class="form-label rich_text_area required" for="post_body">Body <abbr title="required">*</abbr></label><input type="hidden" name="post[body]" id="post_body_trix_input_post" autocomplete="off" /><trix-editor class="form-control rich_text_area required" id="post_body" input="post_body_trix_input_post" data-direct-upload-url="http://www.example.com/rails/active_storage/direct_uploads" data-blob-url-template="http://www.example.com/rails/active_storage/blobs/redirect/:signed_id/:filename"></trix-editor></div>
+<div class="mb-3 select required post_user"><label class="form-label select required" for="post_user_id">User <abbr title="required">*</abbr></label><select class="form-select select required" name="post[user_id]" id="post_user_id"><option value="" label=" "></option>
+<option value="52">Andrew</option>
+<option value="53">Josh</option></select></div>
+<div class="mb-3 string required post_slug"><label class="form-label string required" for="post_slug">Slug <abbr title="required">*</abbr></label><input class="form-control string required" type="text" name="post[slug]" id="post_slug" /></div>
+<fieldset class="mb-3 check_boxes optional post_tags"><legend class="col-form-label pt-0">Tags</legend><div class="row"></div><input type="hidden" name="post[tag_ids][]" value="" autocomplete="off" /><div class="form-check"><input class="form-check-input check_boxes optional" type="checkbox" value="1" name="post[tag_ids][]" id="post_tag_ids_1" /><label class="form-check-label collection_check_boxes" for="post_tag_ids_1">coffee</label></div></fieldset>
+<hr>
+<fieldset class="mb-3 boolean optional post_published"><div class="form-check"><input name="post[published]" type="hidden" value="0" autocomplete="off" /><input class="form-check-input boolean optional" type="checkbox" value="1" name="post[published]" id="post_published" /><label class="form-check-label boolean optional" for="post_published">Published</label></div></fieldset>
+<input type="submit" name="commit" value="Create Post" class="btn btn-primary" data-disable-with="Create Post" />
+
+</form></section>
+
+</div>
+</div>
+</div>
+</body>
+</html>

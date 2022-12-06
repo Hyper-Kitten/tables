@@ -1,0 +1,9 @@
+<section class='new-user'>
+<h2>Welcome to <span class="translation_missing" title="translation missing: en.hyper_kitten_meow.title">Title</span></h2>
+<p>Please create your first user account to get started.</p>
+<form class="simple_form new_user" id="new_user" novalidate="novalidate" action="/hyper-kitten-meow/admin/first_users" accept-charset="UTF-8" method="post"><div class="mb-3 string required user_name"><label class="form-label string required" for="user_name">Name <abbr title="required">*</abbr></label><input class="form-control string required" type="text" name="user[name]" id="user_name" /></div>
+<div class="mb-3 email required user_email"><label class="form-label email required" for="user_email">Email <abbr title="required">*</abbr></label><input class="form-control string email required" type="email" name="user[email]" id="user_email" /></div>
+<div class="mb-3 password optional user_password"><label class="form-label password optional" for="user_password">Password</label><input class="form-control password optional" type="password" name="user[password]" id="user_password" /></div>
+<div class="mb-3 password optional user_password_confirmation"><label class="form-label password optional" for="user_password_confirmation">Password confirmation</label><input class="form-control password optional" type="password" name="user[password_confirmation]" id="user_password_confirmation" /></div>
+<input type="submit" name="commit" value="Create User" class="btn btn-primary" data-disable-with="Create User" />
+</form></section>
