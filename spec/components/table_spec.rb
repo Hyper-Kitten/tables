@@ -84,7 +84,7 @@ RSpec.describe HyperKittenTables::Components::Table do
         table.td(:name, sortable: false)
       end
 
-      html = render component
+      render component
 
       assert_select "table" do
         assert_select "thead" do
