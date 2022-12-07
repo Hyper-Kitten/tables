@@ -179,7 +179,8 @@ RSpec.describe HyperKittenTables::Components::Table do
 
       html = render component
 
-      assert_select "div", text: "Footer"
+      assert_select "body", text: /Footer/
+      assert_select "table", text: /Footer/, count: 0
     end
 
     def render(component, params: {})

@@ -95,7 +95,6 @@ module HyperKittenTables
             visible_columns.map do |column|
               if column.sortable
                 content_tag(:th, @th_options) do
-                  # @header_sort_url.call(column, @view_context.params).html_safe
                   header_sort_url(column, query_params).html_safe
                 end
               else
@@ -124,9 +123,7 @@ module HyperKittenTables
       end
 
       def render_footer
-        if @footer
-          content_tag(:div, capture(&@footer))
-        end
+        capture(&@footer) if @footer
       end
 
       def query_params
