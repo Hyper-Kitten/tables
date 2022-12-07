@@ -9,7 +9,7 @@ module HyperKittenTables
       included do
         extend Forwardable
 
-        def_delegators :@view_context, :content_tag, :capture
+        def_delegators :@view_context, :content_tag, :capture, :request
 
         Column = Struct.new(:name, :method_name, :sort_key, :block, :sortable, :options)
       end
@@ -34,7 +34,7 @@ module HyperKittenTables
         define_singleton_method(:header_sort_url, &block)
       end
 
-      def header_sort_url(column, params)
+      def header_sort_url(column, query_params)
         # Override this method to define the sort url for the header.
 
         raise NotImplementedError, "You must define #header_sort_url if you want sortable table columns."
@@ -67,6 +67,7 @@ module HyperKittenTables
       def render_in(view_context)
         @view_context = view_context
 
+        pp view_context.method(:params)
         render_table
       end
 
@@ -89,7 +90,7 @@ module HyperKittenTables
               if column.sortable
                 content_tag(:th, @th_options) do
                   # @header_sort_url.call(column, @view_context.params).html_safe
-                  header_sort_url(column, @view_context.params).html_safe
+                  header_sort_url(column, query_params).html_safe
                 end
               else
                 content_tag(:th, column.name, @th_options)
@@ -120,6 +121,10 @@ module HyperKittenTables
         if @footer
           content_tag(:div, capture(&@footer))
         end
+      end
+
+      def query_params
+        request.query_parameters
       end
     end
   end

@@ -183,19 +183,19 @@ RSpec.describe HyperKittenTables::Components::Table do
     end
 
     def render(component, params: {})
-      assigns = { secret: "in the sauce" }
+      request = Struct.new(:query_parameters).new(params)
 
       view = Class.new(ActionView::Base.with_empty_template_cache) do
-        attr_accessor :params
+        attr_accessor :request
         def view_cache_dependencies; []; end
         # def params; parameters; end
 
         def combined_fragment_cache_key(key)
           [ :views, key ]
         end
-      end.with_view_paths([], assigns)
+      end.with_view_paths([])
 
-      view.params =  params
+      view.request = request
 
       html = view.render component
 
