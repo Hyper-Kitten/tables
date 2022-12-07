@@ -133,7 +133,7 @@ RSpec.describe HyperKittenTables::Components::Table do
 
     it "with sortable columns" do
       component = described_class.new(collection: []) do |table|
-        table.header_sort_url do |column, params|
+        table.define_header_sort_url do |column, params|
           link_direction = case params
           when { column.sort_key => "asc" }
             "desc"

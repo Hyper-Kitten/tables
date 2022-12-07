@@ -30,8 +30,14 @@ module HyperKittenTables
         @columns << Column.new(name, method_name, sort_key, block, sortable, options)
       end
 
-      def header_sort_url(&block)
-        @header_sort_url = block
+      def define_header_sort_url(&block)
+        define_singleton_method(:header_sort_url, &block)
+      end
+
+      def header_sort_url(column, params)
+        # Override this method to define the sort url for the header.
+
+        raise NotImplementedError, "You must define #header_sort_url if you want sortable table columns."
       end
 
       def footer(&block)
@@ -82,7 +88,8 @@ module HyperKittenTables
             visible_columns.map do |column|
               if column.sortable
                 content_tag(:th, @th_options) do
-                  @header_sort_url.call(column, @view_context.params).html_safe
+                  # @header_sort_url.call(column, @view_context.params).html_safe
+                  header_sort_url(column, @view_context.params).html_safe
                 end
               else
                 content_tag(:th, column.name, @th_options)
