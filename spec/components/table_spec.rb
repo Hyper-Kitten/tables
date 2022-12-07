@@ -1,9 +1,8 @@
-# require "hyper_kitten_tables/concerns/table"
-require 'hyper-kitten-tables'
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe HyperKittenTables::Components::Table do
   User = Struct.new(:name)
+
   describe "rendering a table" do
     it "with defaults" do
       component = described_class.new(collection: []) do |table|
