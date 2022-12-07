@@ -67,7 +67,6 @@ module HyperKittenTables
       def render_in(view_context)
         @view_context = view_context
 
-        pp view_context.method(:params)
         render_table
       end
 
