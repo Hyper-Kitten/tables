@@ -20,8 +20,8 @@ Gem::Specification.new do |spec|
   end
   spec.test_files = Dir["spec/**/*"]
 
-  spec.add_dependency "actionview", ">= 7.0.4"
-  spec.add_dependency "activesupport", ">= 7.0.4"
+  spec.add_dependency "actionview", ">= 6.0.0"
+  spec.add_dependency "activesupport", ">= 6.0.0"
   spec.add_dependency "tzinfo-data"
 
   spec.add_development_dependency "pry-rails"

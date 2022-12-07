@@ -2,8 +2,8 @@ PATH
   remote: .
   specs:
     hyper-kitten-tables (0.1.0)
-      actionview (>= 7.0.4)
-      activesupport (>= 7.0.4)
+      actionview (>= 6.0.0)
+      activesupport (>= 6.0.0)
       tzinfo-data
 
 GEM
