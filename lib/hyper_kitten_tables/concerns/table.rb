@@ -17,6 +17,13 @@ module HyperKittenTables
       def initialize(collection: [], requested_columns: [], &block)
         @collection = collection
         @columns = []
+
+        @table_options = {}
+        @thead_options = {}
+        @tbody_options = {}
+        @tr_options = {}
+        @th_options = {}
+
         @requested_columns = requested_columns
         yield self if block_given?
       end
