@@ -11,7 +11,7 @@ module HyperKittenTables
 
         def_delegators :@view_context, :content_tag, :capture, :request
 
-        Column = Struct.new(:name, :method_name, :sort_key, :block, :sortable, :options)
+        const_set :Column, Struct.new(:name, :method_name, :sort_key, :block, :sortable, :options)
       end
 
       def initialize(collection: [], requested_columns: [], &block)
@@ -34,7 +34,7 @@ module HyperKittenTables
           name = name.to_s.titleize unless block_given?
         end
         sort_key = method_name if sort_key.blank?
-        @columns << Column.new(name, method_name, sort_key, block, sortable, options)
+        @columns << self.class::Column.new(name, method_name, sort_key, block, sortable, options)
       end
 
       def define_header_sort_url(&block)
