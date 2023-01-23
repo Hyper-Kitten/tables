@@ -29,7 +29,7 @@ module HyperKittenTables
         yield self if block_given?
       end
 
-      def td(name, method_name: nil, sort_key: nil, sortable: @sort_column_default, **options, &block)
+      def td(name, method_name: nil, sort_key: nil, sortable: @sortable_column_default, **options, &block)
         if method_name.nil?
           method_name = name.to_s.parameterize.underscore
           name = name.to_s.titleize unless block_given?
