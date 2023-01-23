@@ -14,8 +14,9 @@ module HyperKittenTables
         const_set :Column, Struct.new(:name, :method_name, :sort_key, :block, :sortable, :options)
       end
 
-      def initialize(collection: [], requested_columns: [], &block)
+      def initialize(collection: [], requested_columns: [], sortable_column_default: false, &block)
         @collection = collection
+        @sortable_column_default = sortable_column_default
         @columns = []
 
         @table_options = {}
@@ -28,7 +29,7 @@ module HyperKittenTables
         yield self if block_given?
       end
 
-      def td(name, method_name: nil, sort_key: nil, sortable: true, **options, &block)
+      def td(name, method_name: nil, sort_key: nil, sortable: nil, **options, &block)
         if method_name.nil?
           method_name = name.to_s.parameterize.underscore
           name = name.to_s.titleize unless block_given?
@@ -93,7 +94,7 @@ module HyperKittenTables
         content_tag(:thead, @thead_options) do
           content_tag(:tr, @tr_options) do
             visible_columns.map do |column|
-              if column.sortable
+              if column.sortable || @sortable_column_default
                 content_tag(:th, @th_options) do
                   header_sort_url(column, query_params).html_safe
                 end

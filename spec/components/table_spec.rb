@@ -168,6 +168,23 @@ RSpec.describe HyperKittenTables::Components::Table do
       end
     end
 
+    it "with global sortable default set" do
+      component = described_class.new(collection: [], requested_columns: ["Name"], sortable_column_default: false) do |table|
+        table.td(:name)
+      end
+
+      html = render component
+
+      assert_select "table" do
+        assert_select "thead" do
+          assert_select "tr" do
+            assert_select "th", text: "Name"
+          end
+        end
+      end
+    end
+
+
     it "with a footer " do
       component = described_class.new(collection: []) do |table|
         table.td(:name, sortable: false)
