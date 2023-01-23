@@ -29,7 +29,7 @@ module HyperKittenTables
         yield self if block_given?
       end
 
-      def td(name, method_name: nil, sort_key: nil, sortable: nil, **options, &block)
+      def td(name, method_name: nil, sort_key: nil, sortable: @sort_column_default, **options, &block)
         if method_name.nil?
           method_name = name.to_s.parameterize.underscore
           name = name.to_s.titleize unless block_given?
@@ -94,7 +94,7 @@ module HyperKittenTables
         content_tag(:thead, @thead_options) do
           content_tag(:tr, @tr_options) do
             visible_columns.map do |column|
-              if column.sortable || @sortable_column_default
+              if column.sortable
                 content_tag(:th, @th_options) do
                   header_sort_url(column, query_params).html_safe
                 end
