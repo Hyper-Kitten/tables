@@ -26,12 +26,17 @@ RSpec.describe HyperKittenTables::Components::Table do
     it "with custom column options" do
       user = User.new("Hyper Kitten")
       component = described_class.new(collection: [user]) do |table|
-        table.td(:name, sortable: false, class: "custom-class")
+        table.td(:name, sortable: false, class: "custom-class", header_options: { class: "custom-class" })
       end
 
-      render component
+      response = render component
 
       assert_select "table" do
+        assert_select "thead" do
+          assert_select "tr" do
+            assert_select "th.custom-class", text: "Name"
+          end
+        end
         assert_select "tbody" do
           assert_select "tr" do
             assert_select "td.custom-class", text: "Hyper Kitten"

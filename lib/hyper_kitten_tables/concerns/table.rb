@@ -11,7 +11,7 @@ module HyperKittenTables
 
         def_delegators :@view_context, :content_tag, :capture, :request
 
-        const_set :Column, Struct.new(:name, :method_name, :sort_key, :block, :sortable, :options)
+        const_set :Column, Struct.new(:name, :method_name, :sort_key, :block, :sortable, :options, :header_options)
       end
 
       def initialize(collection: [], requested_columns: [], sortable_column_default: false, &block)
@@ -29,13 +29,13 @@ module HyperKittenTables
         yield self if block_given?
       end
 
-      def td(name, method_name: nil, sort_key: nil, sortable: @sortable_column_default, **options, &block)
+      def td(name, method_name: nil, sort_key: nil, sortable: @sortable_column_default, header_options: {}, **options, &block)
         if method_name.nil?
           method_name = name.to_s.parameterize.underscore
           name = name.to_s.titleize unless block_given?
         end
         sort_key = method_name if sort_key.blank?
-        @columns << self.class::Column.new(name, method_name, sort_key, block, sortable, options)
+        @columns << self.class::Column.new(name, method_name, sort_key, block, sortable, options, header_options)
       end
 
       def define_header_sort_url(&block)
@@ -94,12 +94,13 @@ module HyperKittenTables
         content_tag(:thead, @thead_options) do
           content_tag(:tr, @tr_options) do
             visible_columns.map do |column|
+              header_options = @th_options.merge(column.header_options)
               if column.sortable
-                content_tag(:th, @th_options) do
+                content_tag(:th, header_options) do
                   header_sort_url(column, query_params).html_safe
                 end
               else
-                content_tag(:th, column.name, @th_options)
+                content_tag(:th, column.name, header_options)
               end
             end.join.html_safe
           end
