@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    hyper-kitten-tables (0.1.1.alpha1.01)
+    hyper-kitten-tables (0.1.1.alpha1.02)
       actionview (>= 6.0.0)
       activesupport (>= 6.0.0)
       tzinfo-data
